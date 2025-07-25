@@ -139,6 +139,29 @@ def main():
     plt.savefig(fig_dir / "rolling_mean_return.png", dpi=150)
     plt.close()
 
+    # 5. Distribution of number of selections per ticker
+    plt.figure(figsize=(8, 5))
+    sns.histplot(freq_tbl["Count"], bins=20, color="tab:purple")
+    plt.title("Distribution of selections per ticker")
+    plt.xlabel("Selections per ticker")
+    plt.ylabel("Number of tickers")
+    plt.tight_layout()
+    plt.savefig(fig_dir / "selection_count_distribution.png", dpi=150)
+    plt.close()
+
+    # 6. Bar chart of selections per ticker (all tickers)
+    plt.figure(figsize=(10, max(4, 0.25 * len(freq_tbl))))
+    sns.barplot(x="Count", y=freq_tbl.index, data=freq_tbl, color="skyblue")
+    plt.title("Number of selections per ticker (sorted)")
+    plt.xlabel("Selections")
+    plt.ylabel("Ticker")
+    # Annotate counts at end of bars
+    for i, (count) in enumerate(freq_tbl["Count"]):
+        plt.text(count + 5, i, f"{count}", va="center")
+    plt.tight_layout()
+    plt.savefig(fig_dir / "ticker_selection_counts.png", dpi=150)
+    plt.close()
+
     print("Analysis complete. Tables saved to", tbl_dir.resolve())
     print("Figures saved to", fig_dir.resolve())
 
